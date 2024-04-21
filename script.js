@@ -4,31 +4,36 @@ const container = document.querySelector('.container');
 
 // Function Declarations:
 function drawCanvas() {
-    const dotsInRow = 40;
-    const gridSize = Math.min(window.innerHeight, window.innerWidth);
+    const dotsInRow =50;
+    const gridSize = Math.floor(Math.min(window.innerHeight, window.innerWidth) /dotsInRow) * dotsInRow;
+    container.style.height = gridSize + 'px';
+    container.style.width = gridSize + 'px';
     const dotSize = gridSize / dotsInRow;
+    console.log(gridSize, dotSize);
 
     for (let i = 0; i < dotsInRow; i++) {
         const row = document.createElement('div');
-        row.setAttribute('class', 'row');
-        // console.log(i);
         for (let j = 0; j < dotsInRow; j++) {
             const dot = document.createElement('div');
             dot.setAttribute('class', 'dot');
             dot.style.minHeight = dotSize + 'px';
             dot.style.minWidth = dotSize + 'px';
-            // dot.textContent = i + j;
-            row.appendChild(dot);
-            // console.log('   ', j);
+            dot.style.maxHeight = dotSize + 'px';
+            dot.style.maxWidth = dotSize + 'px';
+            container.appendChild(dot);
         }
         container.appendChild(row);
     }
+}
 
-    console.log(dots, gridSize);
+
+function hoverEffect(event) {
+    event.stopPropagation();
+    event.target.style.backgroundColor = 'black';
 }
 
 
 
 // Test Codes:
-// console.log(canvas.innerHeight, canvas.innerWidth);
 drawCanvas();
+container.addEventListener('mouseover', hoverEffect);
