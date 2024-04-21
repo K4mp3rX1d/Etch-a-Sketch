@@ -1,15 +1,15 @@
 // Global Variables:
-const container = document.querySelector('.container');
+const main = document.querySelector('main');
+const canvas = document.querySelector('.canvas');
+const btnNewPad = document.querySelector('button');
 
 
 // Function Declarations:
-function drawCanvas() {
-    const dotsInRow =50;
-    const gridSize = Math.floor(Math.min(window.innerHeight, window.innerWidth) /dotsInRow) * dotsInRow;
-    container.style.height = gridSize + 'px';
-    container.style.width = gridSize + 'px';
+function drawCanvas(dotsInRow) {
+    const gridSize = Math.floor(Math.min(window.innerHeight, window.innerWidth) /dotsInRow) * dotsInRow; // Making sure gridSize is divisible by dotsInRow.
+    canvas.style.height = gridSize + 'px';
+    canvas.style.width = gridSize + 'px';
     const dotSize = gridSize / dotsInRow;
-    console.log(gridSize, dotSize);
 
     for (let i = 0; i < dotsInRow; i++) {
         const row = document.createElement('div');
@@ -20,9 +20,9 @@ function drawCanvas() {
             dot.style.minWidth = dotSize + 'px';
             dot.style.maxHeight = dotSize + 'px';
             dot.style.maxWidth = dotSize + 'px';
-            container.appendChild(dot);
+            canvas.appendChild(dot);
         }
-        container.appendChild(row);
+        canvas.appendChild(row);
     }
 }
 
@@ -35,5 +35,11 @@ function hoverEffect(event) {
 
 
 // Test Codes:
-drawCanvas();
-container.addEventListener('mouseover', hoverEffect);
+drawCanvas(64);
+canvas.addEventListener('mouseover', hoverEffect);
+btnNewPad.addEventListener('click', () => {
+    size = window.prompt('How many dots would you like to have each side in pad (max: 100)?', 64);
+    size = size ? size : 64; // In case prompt fails for some reason.
+    Array.from(canvas.children).forEach(n => n.remove());
+    drawCanvas(size);
+})
